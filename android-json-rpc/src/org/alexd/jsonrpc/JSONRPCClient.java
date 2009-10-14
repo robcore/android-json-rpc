@@ -74,6 +74,14 @@ public abstract class JSONRPCClient {
 //		return null;
 //	}
 	
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public Object call(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -86,6 +94,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a String
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public String callString(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -98,6 +113,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as an int
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public int callInt(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -110,6 +132,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a long
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public long callLong(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -122,6 +151,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a boolean
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public boolean callBoolean(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -134,6 +170,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a double
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public double callDouble(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -146,6 +189,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a JSONObject
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public JSONObject callJSONObject(String method, Object ... params) throws JSONRPCException
 	{
 		try 
@@ -158,6 +208,13 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a JSONArray
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
 	public JSONArray callJSONArray(String method, Object ... params) throws JSONRPCException
 	{
 		try 

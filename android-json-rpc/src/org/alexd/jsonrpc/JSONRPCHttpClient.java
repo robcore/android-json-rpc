@@ -13,6 +13,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Implementation of JSON-RPC over HTTP/POST
+ */
 public class JSONRPCHttpClient extends JSONRPCClient
 {
 	/*
