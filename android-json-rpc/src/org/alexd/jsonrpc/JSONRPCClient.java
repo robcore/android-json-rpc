@@ -7,6 +7,11 @@ import org.json.JSONObject;
 
 public abstract class JSONRPCClient {
 
+	/**
+	 * Create a JSONRPCClient from a given uri 
+	 * @param uri The URI of the JSON-RPC service
+	 * @return a JSONRPCClient instance acting as a proxy for the web service
+	 */
 	public static JSONRPCClient create(String uri)
 	{
 		return new JSONRPCHttpClient(uri);
