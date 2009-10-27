@@ -39,7 +39,7 @@ public class JSONRPCHttpClient extends JSONRPCClient
 
 	protected JSONObject doJSONRequest(JSONObject jsonRequest) throws JSONRPCException
 	{
-		//Create HTTP/POST request
+		//Create HTTP/POST request with a JSON entity containing the request
 		HttpPost request = new HttpPost(serviceUri);
 		HttpEntity entity;
 		try
@@ -54,10 +54,12 @@ public class JSONRPCHttpClient extends JSONRPCClient
 		
 		try
 		{
+			//Execute the request and try to decode the JSON Response
 			HttpResponse response = httpClient.execute(request);
 			String responseString = EntityUtils.toString(response.getEntity());
 			responseString = responseString.trim();
 			JSONObject jsonResponse = new JSONObject(responseString);
+			//Check for remote errors
 			Object jsonError = jsonResponse.get("error");
 			if (!jsonError.equals(null))
 			{
@@ -67,10 +69,11 @@ public class JSONRPCHttpClient extends JSONRPCClient
 			{
 				return jsonResponse;
 			}
-		} 
+		}
+		//Underlying errors are wrapped into a JSONRPCException instance
 		catch (ClientProtocolException e) 
 		{
-			throw new JSONRPCException("Http error", e);
+			throw new JSONRPCException("HTTP error", e);
 		}
 		catch (IOException e)
 		{
