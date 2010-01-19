@@ -9,6 +9,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +44,11 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	{
 		//Create HTTP/POST request with a JSON entity containing the request
 		HttpPost request = new HttpPost(serviceUri);
+		HttpParams params = new BasicHttpParams();
+		HttpConnectionParams.setConnectionTimeout(params, getConnectionTimeout());
+		HttpConnectionParams.setSoTimeout(params, getSoTimeout());
+		request.setParams(params);
+		
 		HttpEntity entity;
 		try
 		{

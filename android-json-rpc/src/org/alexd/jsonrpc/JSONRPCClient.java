@@ -44,6 +44,10 @@ public abstract class JSONRPCClient {
 		return doJSONRequest(jsonRequest);
 	}
 	
+	protected int soTimeout = 0, connectionTimeout = 0;
+	
+	
+	
 //	public Object beginCall(String method, final Object ... params)
 //	{
 //		//Handler 
@@ -74,7 +78,40 @@ public abstract class JSONRPCClient {
 //		return null;
 //	}
 	
-	
+	/**
+	 * Get the socket operation timeout in milliseconds
+	 */
+	public int getSoTimeout()
+	{
+		return soTimeout;
+	}
+
+	/**
+	 * Set the socket operation timeout
+	 * @param soTimeout timeout in milliseconds
+	 */
+	public void setSoTimeout(int soTimeout)
+	{
+		this.soTimeout = soTimeout;
+	}
+
+	/**
+	 * Get the connection timeout in milliseconds
+	 */
+	public int getConnectionTimeout()
+	{
+		return connectionTimeout;
+	}
+
+	/**
+	 * Set the connection timeout
+	 * @param connectionTimeout timeout in milliseconds
+	 */
+	public void setConnectionTimeout(int connectionTimeout)
+	{
+		this.connectionTimeout = connectionTimeout;
+	}
+
 	/**
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
