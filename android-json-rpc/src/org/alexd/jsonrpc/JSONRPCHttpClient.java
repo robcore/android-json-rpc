@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -12,15 +13,19 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 /**
  * Implementation of JSON-RPC over HTTP/POST
  */
 public class JSONRPCHttpClient extends JSONRPCClient
 {
+	
 	/*
 	 * HttpClient to issue the HTTP/POST request
 	 */
@@ -30,6 +35,8 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	 */ 
 	private String serviceUri;
 	
+	//HTTP 1.0 
+	private static final ProtocolVersion PROTOCOL_VERSION = new ProtocolVersion("HTTP", 1, 0);
 	/**
 	 * Construct a JsonRPCClient with the given service uri
 	 * @param uri uri of the service
@@ -47,6 +54,7 @@ public class JSONRPCHttpClient extends JSONRPCClient
 		HttpParams params = new BasicHttpParams();
 		HttpConnectionParams.setConnectionTimeout(params, getConnectionTimeout());
 		HttpConnectionParams.setSoTimeout(params, getSoTimeout());
+		HttpProtocolParams.setVersion(params, PROTOCOL_VERSION);
 		request.setParams(params);
 		
 		HttpEntity entity;
@@ -63,7 +71,10 @@ public class JSONRPCHttpClient extends JSONRPCClient
 		try
 		{
 			//Execute the request and try to decode the JSON Response
+			long t = System.currentTimeMillis();
 			HttpResponse response = httpClient.execute(request);
+			t = System.currentTimeMillis() - t;
+			Log.d("json-rpc", "Request time :" + t);
 			String responseString = EntityUtils.toString(response.getEntity());
 			responseString = responseString.trim();
 			JSONObject jsonResponse = new JSONObject(responseString);
