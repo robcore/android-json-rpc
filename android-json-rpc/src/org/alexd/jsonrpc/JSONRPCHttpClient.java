@@ -25,21 +25,24 @@ import android.util.Log;
  */
 public class JSONRPCHttpClient extends JSONRPCClient
 {
-	
+
 	/*
 	 * HttpClient to issue the HTTP/POST request
 	 */
 	private HttpClient httpClient;
 	/*
 	 * Service URI
-	 */ 
+	 */
 	private String serviceUri;
-	
-	//HTTP 1.0 
+
+	// HTTP 1.0
 	private static final ProtocolVersion PROTOCOL_VERSION = new ProtocolVersion("HTTP", 1, 0);
+
 	/**
 	 * Construct a JsonRPCClient with the given service uri
-	 * @param uri uri of the service
+	 * 
+	 * @param uri
+	 *            uri of the service
 	 */
 	public JSONRPCHttpClient(String uri)
 	{
@@ -49,28 +52,28 @@ public class JSONRPCHttpClient extends JSONRPCClient
 
 	protected JSONObject doJSONRequest(JSONObject jsonRequest) throws JSONRPCException
 	{
-		//Create HTTP/POST request with a JSON entity containing the request
+		// Create HTTP/POST request with a JSON entity containing the request
 		HttpPost request = new HttpPost(serviceUri);
 		HttpParams params = new BasicHttpParams();
 		HttpConnectionParams.setConnectionTimeout(params, getConnectionTimeout());
 		HttpConnectionParams.setSoTimeout(params, getSoTimeout());
 		HttpProtocolParams.setVersion(params, PROTOCOL_VERSION);
 		request.setParams(params);
-		
+
 		HttpEntity entity;
 		try
 		{
 			entity = new JSONEntity(jsonRequest);
-		} 
-		catch (UnsupportedEncodingException e1) 
+		}
+		catch (UnsupportedEncodingException e1)
 		{
 			throw new JSONRPCException("Unsupported encoding", e1);
 		}
 		request.setEntity(entity);
-		
+
 		try
 		{
-			//Execute the request and try to decode the JSON Response
+			// Execute the request and try to decode the JSON Response
 			long t = System.currentTimeMillis();
 			HttpResponse response = httpClient.execute(request);
 			t = System.currentTimeMillis() - t;
@@ -78,19 +81,21 @@ public class JSONRPCHttpClient extends JSONRPCClient
 			String responseString = EntityUtils.toString(response.getEntity());
 			responseString = responseString.trim();
 			JSONObject jsonResponse = new JSONObject(responseString);
-			//Check for remote errors
-			Object jsonError = jsonResponse.get("error");
-			if (!jsonError.equals(null))
+			// Check for remote errors
+			if (jsonResponse.has("error"))
 			{
-				throw new JSONRPCException(jsonError);
+				Object jsonError = jsonResponse.get("error");
+				if (!jsonError.equals(null))
+					throw new JSONRPCException(jsonResponse.get("error"));
+				return jsonResponse; // JSON-RPC 1.0
 			}
 			else
 			{
-				return jsonResponse;
+				return jsonResponse; // JSON-RPC 2.0
 			}
 		}
-		//Underlying errors are wrapped into a JSONRPCException instance
-		catch (ClientProtocolException e) 
+		// Underlying errors are wrapped into a JSONRPCException instance
+		catch (ClientProtocolException e)
 		{
 			throw new JSONRPCException("HTTP error", e);
 		}
@@ -98,9 +103,9 @@ public class JSONRPCHttpClient extends JSONRPCClient
 		{
 			throw new JSONRPCException("IO error", e);
 		}
-		catch (JSONException e) 
+		catch (JSONException e)
 		{
 			throw new JSONRPCException("Invalid JSON response", e);
 		}
-	}	
+	}
 }
