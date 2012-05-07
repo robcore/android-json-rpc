@@ -1,8 +1,12 @@
 package org.alexd.jsonrpc;
 
+import java.util.UUID;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import org.alexd.jsonrpc.JSONRPCException;
 
 
 public abstract class JSONRPCClient {
@@ -33,12 +37,26 @@ public abstract class JSONRPCClient {
 		try 
 		{
 			//id hard-coded at 1 for now
-			jsonRequest.put("id", 1);
+			jsonRequest.put("id", UUID.randomUUID().hashCode());
 			jsonRequest.put("method", method);
 			jsonRequest.put("params", jsonParams);
 		}
 		catch (JSONException e1)
 		{
+			throw new JSONRPCException("Invalid JSON request", e1);
+		}
+		return doJSONRequest(jsonRequest);
+	}
+	
+	protected JSONObject doRequest(String method, JSONObject params) throws JSONRPCException, JSONException {
+		
+		JSONObject jsonRequest = new JSONObject();
+		try{
+			jsonRequest.put("id", UUID.randomUUID().hashCode());
+			jsonRequest.put("method", method);
+			jsonRequest.put("params", params);
+			jsonRequest.put("jsonrpc", "2.0");
+		} catch (JSONException e1) {
 			throw new JSONRPCException("Invalid JSON request", e1);
 		}
 		return doJSONRequest(jsonRequest);
@@ -135,6 +153,20 @@ public abstract class JSONRPCClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
+	 * @return The result of the RPC
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */	public Object call(String method, JSONObject params) throws JSONRPCException {
+		try{
+			return doRequest(method, params).get("result");
+		} catch (JSONException e) {
+			throw new JSONRPCException("Cannot convert result to String", e);
+		}
+	}
+	 
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
 	 * @return The result of the RPC as a String
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
@@ -150,6 +182,21 @@ public abstract class JSONRPCClient {
 		}
 	}
 	
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a String
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */	public String callString(String method, JSONObject params) throws JSONRPCException {
+		try{
+			return doRequest(method, params).getString("result");
+		} catch (JSONException e) {
+			throw new JSONRPCException("Cannot convert result to String", e);
+		}
+	}
+	 
 	/**
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
@@ -168,6 +215,30 @@ public abstract class JSONRPCClient {
 			throw new JSONRPCException("Cannot convert result to int", e);
 		}
 	}
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as an int
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */	
+	public Object callInt(String method, JSONObject params) throws JSONRPCException {
+		JSONObject response = null;
+		try{
+			response = doRequest(method, params);
+			return response.getInt("result");
+		} catch (JSONException e) {
+			if(response == null) throw new JSONRPCException("Cannot call method: " + method, e);
+			try{
+				return Integer.parseInt(response.getString("result"));
+			} catch(NumberFormatException e1){
+				throw new JSONRPCException("Cannot convert result to int", e1);
+			} catch (JSONException e1){ 
+				throw new JSONRPCException("Cannot convert result to int", e1);
+			}
+		}
+	 }
 	
 	/**
 	 * Perform a remote JSON-RPC method call
@@ -192,6 +263,35 @@ public abstract class JSONRPCClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
+	 * @return The result of the RPC as a long
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
+	public long callLong(String method, JSONObject params) throws JSONRPCException
+	{
+		JSONObject response = null;
+		try 
+		{
+			response = doRequest(method, params);
+			return response.getLong("result");
+		} 
+		catch (JSONException e)
+		{
+			if(response == null) throw new JSONRPCException("Cannot call method: " + method, e);
+			try {
+				return Long.parseLong(response.getString("result"));
+			} catch (NumberFormatException e1) {
+				throw new JSONRPCException("Cannot convert result to long", e);
+			} catch (JSONException e1) {
+				throw new JSONRPCException("Cannot convert result to long", e);
+			}
+			
+		}
+	}	
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
 	 * @return The result of the RPC as a boolean
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
@@ -211,6 +311,21 @@ public abstract class JSONRPCClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
+	 * @return The result of the RPC as a boolean
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
+	public boolean callBoolean(String method, JSONObject params) throws JSONRPCException {
+		try {
+			return doRequest(method, params).getBoolean("result");
+		} catch (JSONException e) {
+			throw new JSONRPCException("Cannot convert result to boolean", e);
+		}
+	}
+
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
 	 * @return The result of the RPC as a double
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
@@ -223,6 +338,53 @@ public abstract class JSONRPCClient {
 		catch (JSONException e)
 		{
 			throw new JSONRPCException("Cannot convert result to double", e);
+		}
+	}
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a double
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
+	public double callDouble(String method, JSONObject params) throws JSONRPCException {
+		JSONObject response = null;
+		try {
+			response = doRequest(method, params);
+			return response.getDouble("result");
+		} catch (JSONException e) {
+			try {
+				if(response == null) throw new JSONRPCException("Cannot call method: " + method, e);
+				return Double.parseDouble(response.getString("result"));
+			} catch (NumberFormatException e1) {
+				throw new JSONRPCException("Cannot convert result to double", e1);
+			} catch (JSONException e1) {
+				throw new JSONRPCException("Cannot convert result to double", e1);
+			}
+		}
+	}
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a JSONObject
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
+	public JSONObject callJSONObject(String method, JSONObject params) throws JSONRPCException {
+		JSONObject response = null;
+		try {
+			response = doRequest(method, params);
+			return response.getJSONObject("result");
+		} 
+		catch (JSONException e){
+			try {
+				if(response == null) throw new JSONRPCException("Cannot call method: " + method, e);
+				return new JSONObject(response.getString("result"));
+			} catch (JSONException e1) {
+				throw new JSONRPCException("Cannot convert result to JSONObject", e);
+			}
 		}
 	}
 	
@@ -261,6 +423,28 @@ public abstract class JSONRPCClient {
 		catch (JSONException e)
 		{
 			throw new JSONRPCException("Cannot convert result to JSONArray", e);
+		}
+	}
+	
+	/**
+	 * Perform a remote JSON-RPC method call
+	 * @param method The name of the method to invoke
+	 * @param params Arguments of the method
+	 * @return The result of the RPC as a JSONArray
+	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
+	 */
+	public JSONArray callJSONArray(String method, JSONObject params) throws JSONRPCException {
+		JSONObject response = null; 
+		try {
+			response = doRequest(method, params);
+			return response.getJSONArray("result");
+		} catch (JSONException e) {
+			try {
+				if(response == null) throw new JSONRPCException("Cannot call method: " + method, e);
+				return new JSONArray(response.getString("result"));
+			} catch (JSONException e1) {
+				throw new JSONRPCException("Cannot convert result to JSONArray", e1);
+			}
 		}
 	}
 }
