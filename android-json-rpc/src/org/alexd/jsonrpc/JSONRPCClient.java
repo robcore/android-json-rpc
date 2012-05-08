@@ -10,18 +10,41 @@ import org.alexd.jsonrpc.JSONRPCException;
 
 
 public abstract class JSONRPCClient {
+	
+	public static enum Versions{
+		VERSION_1,
+		VERSION_2
+	};
+	
+	protected Versions version;
+//	public static final String VERSION_1 = "1.0";
+//	public static final String VERSION_2 = "2.0";
 
 	/**
 	 * Create a JSONRPCClient from a given uri 
 	 * @param uri The URI of the JSON-RPC service
 	 * @return a JSONRPCClient instance acting as a proxy for the web service
 	 */
-	public static JSONRPCClient create(String uri)
-	{
-		return new JSONRPCHttpClient(uri);
+	public static JSONRPCClient create(String uri, Versions version) {
+		JSONRPCClient client = new JSONRPCHttpClient(uri);
+		client.version = version;
+		return client;
 	}
 	
 	protected abstract JSONObject doJSONRequest(JSONObject request) throws JSONRPCException;
+	
+	protected static JSONArray getJSONArray(Object[] array){
+		JSONArray arr = new JSONArray();
+		for (Object item : array) {
+			if(item.getClass().isArray()){
+				arr.put(getJSONArray((Object[])item));
+			}
+			else {
+				arr.put(item);
+			}
+		}
+		return arr;
+	}
 	
 	protected JSONObject doRequest(String method, Object[] params) throws JSONRPCException
 	{
@@ -29,6 +52,9 @@ public abstract class JSONRPCClient {
 		JSONArray jsonParams = new JSONArray();
 		for (int i=0; i<params.length; i++)
 		{
+			if(params[i].getClass().isArray()){
+				jsonParams.put(getJSONArray((Object[])params[i]));
+			}
 			jsonParams.put(params[i]);
 		}
 		
@@ -36,7 +62,6 @@ public abstract class JSONRPCClient {
 		JSONObject jsonRequest = new JSONObject();
 		try 
 		{
-			//id hard-coded at 1 for now
 			jsonRequest.put("id", UUID.randomUUID().hashCode());
 			jsonRequest.put("method", method);
 			jsonRequest.put("params", jsonParams);
@@ -175,9 +200,10 @@ public abstract class JSONRPCClient {
 		try 
 		{
 			return doRequest(method, params).getString("result");
-		} 
-		catch (JSONException e)
+		} catch (JSONRPCException e)
 		{
+			throw new JSONRPCException("Cannot convert result to String", e);
+		} catch (JSONException e) {
 			throw new JSONRPCException("Cannot convert result to String", e);
 		}
 	}
@@ -193,6 +219,10 @@ public abstract class JSONRPCClient {
 		try{
 			return doRequest(method, params).getString("result");
 		} catch (JSONException e) {
+			throw new JSONRPCException("Cannot convert result to String", e);
+		} catch (JSONRPCException e) {
+			throw new JSONRPCException("Cannot convert result to String", e);
+		} catch (Exception e) {
 			throw new JSONRPCException("Cannot convert result to String", e);
 		}
 	}
