@@ -7,14 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.alexd.jsonrpc.JSONRPCException;
-
+import org.alexd.jsonrpc.JSONRPCParams.Versions;
 
 public abstract class JSONRPCClient {
-	
-	public static enum Versions{
-		VERSION_1,
-		VERSION_2
-	};
 	
 	protected Versions version;
 //	public static final String VERSION_1 = "1.0";

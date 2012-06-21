@@ -23,7 +23,7 @@ import android.util.Log;
 /**
  * Implementation of JSON-RPC over HTTP/POST
  */
-public class JSONRPCHttpClient extends JSONRPCClient
+public class JSONRPCThreadedHttpClient extends JSONRPCThreadedClient
 {
 
 	/*
@@ -45,7 +45,7 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	// HTTP 1.0
 	private static final ProtocolVersion PROTOCOL_VERSION = new ProtocolVersion("HTTP", 1, 0);
 	
-	public JSONRPCHttpClient(HttpClient cleint, String uri, boolean debug){
+	public JSONRPCThreadedHttpClient(HttpClient cleint, String uri, boolean debug){
 		httpClient = cleint;
 		serviceUri = uri;
 		DEBUG = debug;
@@ -59,7 +59,7 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	 * @param uri
 	 *            uri of the service
 	 */
-	public JSONRPCHttpClient(HttpClient client, String uri)
+	public JSONRPCThreadedHttpClient(HttpClient client, String uri)
 	{
 		this(client, uri, false);
 	}
@@ -71,7 +71,7 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	 * @param uri
 	 *            uri of the service
 	 */
-	public JSONRPCHttpClient(String uri)
+	public JSONRPCThreadedHttpClient(String uri)
 	{
 		this(new DefaultHttpClient(), uri);
 	}
