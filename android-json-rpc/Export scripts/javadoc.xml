@@ -4,14 +4,9 @@
 	<property name="doc.dir" location="./doc"></property>
 	<property name="zip.dir" location="./zip"></property>
 	<property name="src.dir" location="./src"></property>
-	
-	<!-- Cleaning -->
-	<target name="clean">
-		<delete dir="${doc.dir}"/>
-	</target>
 
 	<!-- Create Javadoc -->
-    <target name="javadoc" depends="clean">
+    <target name="javadoc">
         <javadoc access="public" author="true" 
         	classpath="/Users/mlambrigger/android-sdk-macosx/platforms/android-7/android.jar" 
         	destdir="${doc.dir}" doctitle="Android JSON RPC" nodeprecated="false" 
