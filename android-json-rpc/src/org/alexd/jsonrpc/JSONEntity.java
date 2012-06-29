@@ -15,7 +15,8 @@ class JSONEntity extends StringEntity
 {
 	public JSONEntity(JSONObject jsonObject) throws UnsupportedEncodingException 
 	{
-		super(jsonObject.toString());
+		super(jsonObject.toString(), "utf-8");
+		setContentEncoding("utf-8");
 	}
 
 	@Override
