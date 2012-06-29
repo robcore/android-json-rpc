@@ -13,10 +13,26 @@ import org.json.JSONObject;
  */
 class JSONEntity extends StringEntity 
 {
+	/**
+	 * Basic constructor
+	 * @param jsonObject		
+	 * @throws UnsupportedEncodingException
+	 */
 	public JSONEntity(JSONObject jsonObject) throws UnsupportedEncodingException 
 	{
-		super(jsonObject.toString(), "utf-8");
-		setContentEncoding("utf-8");
+		super(jsonObject.toString());
+	}
+	
+	/**
+	 * Constructor with encoding specified
+	 * @param jsonObject
+	 * @param encoding	Chosen encoding from HTTP.UTF_8, HTTP.UTF_16 or ISO_8859_1 or any other supported format
+	 * @throws UnsupportedEncodingException
+	 */
+	public JSONEntity(JSONObject jsonObject, String encoding) throws UnsupportedEncodingException
+	{
+		super(jsonObject.toString(), encoding);
+		setContentEncoding(encoding);
 	}
 
 	@Override

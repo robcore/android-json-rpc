@@ -87,21 +87,29 @@ public class JSONRPCHttpClient extends JSONRPCClient
 		request.setParams(params);
 
 		HttpEntity entity;
+		
 		try
 		{
-			entity = new JSONEntity(jsonRequest);
+			if(encoding.length() > 0){
+				entity = new JSONEntity(jsonRequest, encoding);
+			}
+			else{
+				entity = new JSONEntity(jsonRequest);
+			}
 		}
 		catch (UnsupportedEncodingException e1)
 		{
 			throw new JSONRPCException("Unsupported encoding", e1);
 		}
 		request.setEntity(entity);
-
+		
 		try
 		{
 			// Execute the request and try to decode the JSON Response
 			long t = System.currentTimeMillis();
 			HttpResponse response = httpClient.execute(request);
+			
+			
 			t = System.currentTimeMillis() - t;
 			String responseString = EntityUtils.toString(response.getEntity());
 			

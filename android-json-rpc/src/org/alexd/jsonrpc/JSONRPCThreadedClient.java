@@ -175,7 +175,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void call(final String method, final OnObjectResultListener listener, final Object ... params) 
@@ -217,7 +216,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */	
 	public void call(final String method, final OnObjectResultListener onResultListener, final JSONObject params) {
@@ -258,7 +256,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a String
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callString(final String method, final OnStringResultListener listener, final Object ... params) throws JSONRPCException
@@ -301,7 +298,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a String
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */	
 	public void callString(final String method, final OnStringResultListener listener, final JSONObject params) throws JSONRPCException {
@@ -342,7 +338,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as an int
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callInt(final String method, final OnIntResultListener listener, final Object ... params) 
@@ -397,7 +392,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as an int
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */	
 	public void callInt(final String method, final OnIntResultListener listener, final JSONObject params) {
@@ -457,7 +451,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a long
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callLong(final String method, final OnLongResultListener listener, final Object ... params) 
@@ -517,7 +510,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a long
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callLong(final String method, 
@@ -572,7 +564,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a boolean
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callBoolean(final String method, 
@@ -625,7 +616,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a boolean
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callBoolean(final String method, 
@@ -677,7 +667,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a double
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callDouble(final String method, 
@@ -731,7 +720,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a double
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callDouble(final String method, 
@@ -785,7 +773,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a JSONObject
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callJSONObject(final String method, 
@@ -832,7 +819,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a JSONObject
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callJSONObject(final String method, 
@@ -880,7 +866,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a JSONArray
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callJSONArray(final String method, 
@@ -928,7 +913,6 @@ public abstract class JSONRPCThreadedClient {
 	 * Perform a remote JSON-RPC method call
 	 * @param method The name of the method to invoke
 	 * @param params Arguments of the method
-	 * @return The result of the RPC as a JSONArray
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
 	 */
 	public void callJSONArray(final String method, 

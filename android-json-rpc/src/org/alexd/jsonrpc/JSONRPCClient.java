@@ -12,6 +12,7 @@ import org.alexd.jsonrpc.JSONRPCParams.Versions;
 public abstract class JSONRPCClient {
 	
 	protected Versions version;
+	protected String encoding = "";
 //	public static final String VERSION_1 = "1.0";
 //	public static final String VERSION_2 = "2.0";
 
@@ -24,6 +25,14 @@ public abstract class JSONRPCClient {
 		JSONRPCClient client = new JSONRPCHttpClient(uri);
 		client.version = version;
 		return client;
+	}
+	
+	public void setEncoding(String encoding){
+		this.encoding = encoding;
+	}
+	
+	public void delEncoding(){
+		this.encoding = "";
 	}
 	
 	protected abstract JSONObject doJSONRequest(JSONObject request) throws JSONRPCException;
