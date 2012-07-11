@@ -8,11 +8,12 @@ import org.json.JSONObject;
 
 import org.alexd.jsonrpc.JSONRPCException;
 import org.alexd.jsonrpc.JSONRPCParams.Versions;
+import org.apache.http.protocol.HTTP;
 
 public abstract class JSONRPCClient {
 	
 	protected Versions version;
-	protected String encoding = "";
+	protected String encoding = HTTP.UTF_8;
 //	public static final String VERSION_1 = "1.0";
 //	public static final String VERSION_2 = "2.0";
 
