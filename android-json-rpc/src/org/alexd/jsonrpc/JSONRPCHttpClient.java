@@ -35,21 +35,8 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	 */
 	private String serviceUri;
 	
-	/*
-	 * Debug mode
-	 */
-	private boolean DEBUG;
-	
-	
-
 	// HTTP 1.0
 	private static final ProtocolVersion PROTOCOL_VERSION = new ProtocolVersion("HTTP", 1, 0);
-	
-	public JSONRPCHttpClient(HttpClient cleint, String uri, boolean debug){
-		httpClient = cleint;
-		serviceUri = uri;
-		DEBUG = debug;
-	}
 	
  	/**
 	 * Construct a JsonRPCClient with the given httpClient and service uri
@@ -59,12 +46,11 @@ public class JSONRPCHttpClient extends JSONRPCClient
 	 * @param uri
 	 *            uri of the service
 	 */
-	public JSONRPCHttpClient(HttpClient client, String uri)
-	{
-		this(client, uri, false);
+	public JSONRPCHttpClient(HttpClient cleint, String uri){
+		httpClient = cleint;
+		serviceUri = uri;
 	}
-
-
+	
 	/**
 	 * Construct a JsonRPCClient with the given service uri
 	 * 
@@ -116,10 +102,6 @@ public class JSONRPCHttpClient extends JSONRPCClient
 			
 			t = System.currentTimeMillis() - t;
 			String responseString = EntityUtils.toString(response.getEntity());
-			
-			if(DEBUG){
-				Log.d("json-rpc", "Request time :" + t + " for : "  + jsonRequest.getString("method") + " with response: " + responseString);
-			}
 			
 			responseString = responseString.trim();
 			

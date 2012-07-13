@@ -35,21 +35,8 @@ public class JSONRPCThreadedHttpClient extends JSONRPCThreadedClient
 	 */
 	private String serviceUri;
 	
-	/*
-	 * Debug mode
-	 */
-	private boolean DEBUG;
-	
-	
-
 	// HTTP 1.0
 	private static final ProtocolVersion PROTOCOL_VERSION = new ProtocolVersion("HTTP", 1, 0);
-	
-	public JSONRPCThreadedHttpClient(HttpClient cleint, String uri, boolean debug){
-		httpClient = cleint;
-		serviceUri = uri;
-		DEBUG = debug;
-	}
 	
  	/**
 	 * Construct a JsonRPCClient with the given httpClient and service uri
@@ -59,12 +46,11 @@ public class JSONRPCThreadedHttpClient extends JSONRPCThreadedClient
 	 * @param uri
 	 *            uri of the service
 	 */
-	public JSONRPCThreadedHttpClient(HttpClient client, String uri)
-	{
-		this(client, uri, false);
+	public JSONRPCThreadedHttpClient(HttpClient cleint, String uri){
+		httpClient = cleint;
+		serviceUri = uri;
 	}
-
-
+	
 	/**
 	 * Construct a JsonRPCClient with the given service uri
 	 * 
@@ -78,6 +64,10 @@ public class JSONRPCThreadedHttpClient extends JSONRPCThreadedClient
 
 	protected JSONObject doJSONRequest(JSONObject jsonRequest) throws JSONRPCException
 	{
+		
+		if(_debug){
+			Log.d(JSONRPCThreadedHttpClient.class.toString(), "Request: " + jsonRequest.toString());
+		}
 		// Create HTTP/POST request with a JSON entity containing the request
 		HttpPost request = new HttpPost(serviceUri);
 		HttpParams params = new BasicHttpParams();
@@ -105,8 +95,8 @@ public class JSONRPCThreadedHttpClient extends JSONRPCThreadedClient
 			t = System.currentTimeMillis() - t;
 			String responseString = EntityUtils.toString(response.getEntity());
 			
-			if(DEBUG){
-				Log.d("json-rpc", "Request time :" + t + " for : "  + jsonRequest.getString("method") + " with response: " + responseString);
+			if(_debug){
+				Log.d(JSONRPCThreadedHttpClient.class.toString(), "Response: " + responseString);
 			}
 			
 			responseString = responseString.trim();

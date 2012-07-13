@@ -29,10 +29,18 @@ public abstract class JSONRPCClient {
 	}
 	
 	protected boolean _debug = false;
-	public void set_debug(boolean _debug) {
+	
+	/**
+	 * Setting the _debugging mode (ON / OFF  -> FALSE / TRUE
+	 */
+	public void setDebug(boolean _debug) {
 		this._debug = _debug;
 	}
-	public boolean is_debug(){
+	
+	/**
+	 * Get the debugging mode
+	 */
+	public boolean isDebug(){
 		return _debug;
 	}
 	

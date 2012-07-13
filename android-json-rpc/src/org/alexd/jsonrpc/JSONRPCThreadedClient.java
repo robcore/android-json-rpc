@@ -79,6 +79,22 @@ public abstract class JSONRPCThreadedClient {
 		return client;
 	}
 	
+	protected boolean _debug = false;
+	
+	/**
+	 * Setting the _debugging mode (ON / OFF  -> FALSE / TRUE
+	 */
+	public void setDebug(boolean _debug) {
+		this._debug = _debug;
+	}
+	
+	/**
+	 * Get the debugging mode
+	 */
+	public boolean isDebug(){
+		return _debug;
+	}
+	
 	protected abstract JSONObject doJSONRequest(JSONObject request) throws JSONRPCException;
 	
 	protected static JSONArray getJSONArray(Object[] array){
