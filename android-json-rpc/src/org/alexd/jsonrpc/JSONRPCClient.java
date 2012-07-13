@@ -28,6 +28,14 @@ public abstract class JSONRPCClient {
 		return client;
 	}
 	
+	protected boolean _debug = false;
+	public void set_debug(boolean _debug) {
+		this._debug = _debug;
+	}
+	public boolean is_debug(){
+		return _debug;
+	}
+	
 	public void setEncoding(String encoding){
 		this.encoding = encoding;
 	}

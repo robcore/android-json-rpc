@@ -86,6 +86,10 @@ public class JSONRPCHttpClient extends JSONRPCClient
 		HttpProtocolParams.setVersion(params, PROTOCOL_VERSION);
 		request.setParams(params);
 
+		if(_debug){
+			Log.i(JSONRPCHttpClient.class.toString(), "Request: " + jsonRequest.toString());
+		}
+		
 		HttpEntity entity;
 		
 		try
@@ -118,6 +122,11 @@ public class JSONRPCHttpClient extends JSONRPCClient
 			}
 			
 			responseString = responseString.trim();
+			
+			if(_debug){
+				Log.i(JSONRPCHttpClient.class.toString(), "Response: " + responseString);
+			}
+			
 			JSONObject jsonResponse = new JSONObject(responseString);
 			// Check for remote errors
 			if (jsonResponse.has("error"))
