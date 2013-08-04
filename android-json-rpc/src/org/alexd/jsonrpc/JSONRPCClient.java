@@ -201,7 +201,8 @@ public abstract class JSONRPCClient {
 	 * @param params Arguments of the method
 	 * @return The result of the RPC
 	 * @throws JSONRPCException if an error is encountered during JSON-RPC method call
-	 */	public Object call(String method, JSONObject params) throws JSONRPCException {
+	 */	
+	public Object call(String method, JSONObject params) throws JSONRPCException {
 		try{
 			return doRequest(method, params).get("result");
 		} catch (JSONException e) {
